@@ -1,0 +1,6 @@
+env
+__pycache__
+auth_service.db
+README.md
+Dockerfile
+docker-compose.yml
