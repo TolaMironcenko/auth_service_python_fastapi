@@ -29,3 +29,5 @@ docker-compose up
 ```shell
 docker build -t <docker images name> .
 ```
+
+### You don't need to create superuser. Firt registered user will be a superuser
