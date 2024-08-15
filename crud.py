@@ -2,12 +2,16 @@ from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 from datetime import timedelta, timezone, datetime
 import jwt
+from dotenv import load_dotenv
+import os
 
 import models, schemas
 
-SECRET_KEY="develop_secret_key"
-ALGORITHM="HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+load_dotenv()
+
+SECRET_KEY=os.getenv('SECRET_KEY')
+ALGORITHM=os.getenv('ALGORITHM')
+ACCESS_TOKEN_EXPIRE_MINUTES=os.getenv('ACCESS_TOKEN_EXPIRE_MINUTES')
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -58,9 +62,10 @@ def create_user(db: Session, user: schemas.UserCreate) -> schemas.User:
         email=user.email, 
         hashed_password=hashed_password,
         group=user.group,
-        is_superuser=user.is_superuser,
         username=user.username
     )
+    if get_users(db, 0, 100) == []:
+        db_user.is_superuser = True
     db.add(db_user)
     db.commit()
     db.refresh(db_user)

@@ -4,9 +4,12 @@ class UserBase(BaseModel):
     email: str
     username: str
     group: str
-    is_superuser: bool
     
 class UserCreate(UserBase):
+    password: str
+    is_superuser: bool
+    
+class UserRegister(UserBase):
     password: str
     
 class AuthUser(BaseModel):

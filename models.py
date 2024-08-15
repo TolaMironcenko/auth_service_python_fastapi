@@ -22,3 +22,14 @@ class UserModel(Base):
             "is_superuser": self.is_superuser, 
             "username": self.username
         }
+        
+    def __str__(self):
+        return {
+            "id": self.id, 
+            "email": self.email, 
+            "is_active": self.is_active, 
+            "group": self.group, 
+            "is_superuser": self.is_superuser, 
+            "username": self.username
+        }
+    
