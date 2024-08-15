@@ -42,7 +42,7 @@ make run
 python -m venv env
 source env/bin/activate
 pip install -r requirements.txt
-make dist
+make bin
 ```
 
 ## To start with Docker
