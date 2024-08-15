@@ -9,6 +9,15 @@ pip install -r requirements.txt
 fastapi dev main.py
 ```
 
+## or
+
+```shell
+python -m venv env
+source env/bin/activate
+pip install -r requirements.txt
+make dev
+```
+
 ## To start prod
 
 ```shell
@@ -16,6 +25,24 @@ python -m venv env
 source env/bin/activate
 pip install -r requirements.txt
 fastapi run main.py
+```
+
+## or
+
+```shell
+python -m venv env
+source env/bin/activate
+pip install -r requirements.txt
+make run
+```
+
+## To build one binary image
+
+```shell
+python -m venv env
+source env/bin/activate
+pip install -r requirements.txt
+make dist
 ```
 
 ## To start with Docker

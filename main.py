@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+import uvicorn
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
@@ -30,7 +32,7 @@ def get_db():
     finally:
         db.close()
 
-@app.post('/api/users/', response_model=schemas.User)
+@app.post('/api/users/create', response_model=schemas.User)
 def create_user(token: schemas.Token, user: schemas.UserCreate, db: Session = Depends(get_db)) -> schemas.User:
     if not crud.verify_token(db, token.token):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Token is not valid")
@@ -49,7 +51,7 @@ def register_user(user: schemas.UserRegister, db: Session = Depends(get_db)) -> 
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
     return crud.create_user(db=db, user=user)
 
-@app.get("/api/users/", response_model=list[schemas.User])
+@app.post("/api/users/", response_model=list[schemas.User])
 def read_users(
     token: schemas.Token, 
     skip: int = 0, 
@@ -61,7 +63,7 @@ def read_users(
     users = crud.get_users(db, skip=skip, limit=limit)
     return users
 
-@app.get("/api/users/{user_id}", response_model=schemas.User)
+@app.post("/api/users/{user_id}", response_model=schemas.User)
 def read_user(token: schemas.Token, user_id: int, db: Session = Depends(get_db)) -> schemas.User:
     if not crud.verify_token(db, token.token):
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Token is not valid")
@@ -111,5 +113,5 @@ def delete_user(token: schemas.Token, user_id: int = None, db: Session = Depends
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Can't delete user")
     return {"status": "ok"}
         
-                
-        
+if __name__ == "__main__":
+    uvicorn.run(app, host='127.0.0.1', log_level="info")        
